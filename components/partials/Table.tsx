@@ -16,8 +16,8 @@ function Table(props) {
   return (
     <div className="grid grid-cols-12 p-2 border bg-slate-200">
       <div className="bg-slate-400 col-span-12  grid grid-cols-12 font-bold p-2">
-        <div className="col-span-3 text-center">Moradores</div>
-        <div className="col-span-9 bg-blue-400">
+        <div className="col-span-2 text-center table-text-title">Moradores</div>
+        <div className="col-span-10 bg-blue-400">
           <div className="grid grid-cols-12 justify-between w-full">
             <p className="border border-black p-1 text-center text-sm">Ja</p>
             <p className="border border-black p-1 text-center text-sm">Fe</p>
@@ -36,11 +36,14 @@ function Table(props) {
       </div>
 
       {residents.map((resident, index) => (
-        <div className="my-2 col-span-12 grid grid-cols-12">
-          <p className="border border-black p-2 col-span-3">{resident.name}</p>
-          <div className="grid grid-cols-12 col-span-9">
+        <div key={index} className="my-2 col-span-12 grid grid-cols-12">
+          <p className="border border-black p-2 col-span-2 table-text">
+            {resident.name}
+          </p>
+          <div className="grid grid-cols-12 col-span-10">
             {resident.status.map((item, _index) => (
               <div
+                key={_index}
                 className={` flex items-center justify-center ${
                   month < _index ? "bg-slate-400" : ""
                 } p-1 text-center border border-black`}

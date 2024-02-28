@@ -29,3 +29,14 @@
 .texto {
   font-size: clamp(1.5rem, 3rem, 4vw);
 }
+
+.resp {
+  font-size: clamp(1em, 3em, 3.6vw);
+}
+
+.table-text-title {
+  font-size: clamp(0.7em, 3em, 2vw);
+}
+.table-text {
+  font-size: clamp(1em, 3em, 3vw);
+}
