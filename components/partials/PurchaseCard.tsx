@@ -1,5 +1,4 @@
 import { PurchaseType } from "@/types/types";
-import Link from "next/link";
 import React from "react";
 import LinkBtn from "../ui/LinkBtn";
 

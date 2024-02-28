@@ -100,3 +100,48 @@ export const purchases: PurchaseType[] = [
     value: 200.0,
   },
 ];
+
+export const finesFakes: FineType[] = [
+  {
+    resident_name: "João Silva",
+    status: true,
+    date: "2024-02-28",
+    about: "Estacionamento indevido",
+  },
+  {
+    resident_name: "Maria Oliveira",
+    status: false,
+    date: "2024-02-27",
+    about: "Barulho excessivo",
+  },
+  {
+    resident_name: "Carlos Santos",
+    status: true,
+    date: "2024-02-26",
+    about: "Lixo não recolhido",
+  },
+  {
+    resident_name: "Ana Souza",
+    status: false,
+    date: "2024-02-25",
+    about: "Animal de estimação solto",
+  },
+  {
+    resident_name: "Pedro Pereira",
+    status: true,
+    date: "2024-02-24",
+    about: "Danos à propriedade comum",
+  },
+  {
+    resident_name: "Fernanda Costa",
+    status: false,
+    date: "2024-02-23",
+    about: "Uso indevido das áreas comuns",
+  },
+  {
+    resident_name: "Rodrigo Santos",
+    status: true,
+    date: "2024-02-22",
+    about: "Violando regras de segurança",
+  },
+];

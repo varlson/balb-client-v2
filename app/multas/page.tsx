@@ -1,9 +1,15 @@
+import FineCard from "@/components/partials/FineCard";
 import React from "react";
+import { finesFakes } from "@/constants/residents";
 
-function page(props) {
+function page() {
   return (
-    <div className="resp bg-blue-500">
-      <p>multas</p>
+    <div className="my-2">
+      {finesFakes.map((fine, index) => (
+        <div key={index}>
+          <FineCard resident={fine} />
+        </div>
+      ))}
     </div>
   );
 }

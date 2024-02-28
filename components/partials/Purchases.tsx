@@ -1,4 +1,5 @@
 import { purchases } from "@/constants/residents";
+
 import React from "react";
 import PurchaseCard from "./PurchaseCard";
 
