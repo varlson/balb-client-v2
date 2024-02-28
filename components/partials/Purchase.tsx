@@ -1,22 +1,26 @@
+import { PurchaseType } from "@/types/types";
+import Link from "next/link";
 import React from "react";
+import LinkBtn from "../ui/LinkBtn";
 
-type PurchaseProps = {
-  disc: string;
-  value: number;
-  note: string;
+type PuchaseProps = {
+  purchases: PurchaseType;
 };
 
-function Purchase({}: PurchaseProps) {
+function Purchase(purchase: PuchaseProps) {
+  const { author, desc, note, value } = purchase.purchases;
   return (
     <div className="bg-slate-100 shadow-md border-b border-slate-400 p-2 grid grid-cols-7 gap-x-2 rounded mb-2 ">
-      <div className="flex col-span-3 justify-center items-center bg-slate-200 rounded">
-        <p className=" text-3xl p-2 text-center ">23,31 R$</p>
+      <div className="flex col-span-2 justify-center items-center bg-slate-200 rounded">
+        <p className=" texto p-1 text-center ">{`${value} R$`}</p>
       </div>
-      <div className="col-span-4">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore
-        voluptatibus, ipsam.
-        <div className="col-span-7 p-1 flex justify-end">
-          <div className=" bg-orange-400 rounded-md py-2 px-4">Comprovante</div>
+      <div className="col-span-5 ">
+        <p className=" p-1">{desc}</p>
+        <div className="col-span-7 p-1 flex justify-between">
+          <p>
+            Feito por: <span className="font-bold">{author}</span>
+          </p>
+          <LinkBtn link={note} label="Comprovante" />
         </div>
       </div>
     </div>

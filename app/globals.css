@@ -21,3 +21,11 @@
   max-height: calc(100vh - 150px);
   overflow: auto;
 }
+
+.main::-webkit-scrollbar {
+  display: none;
+}
+
+.texto {
+  font-size: clamp(1.5rem, 3rem, 4vw);
+}
