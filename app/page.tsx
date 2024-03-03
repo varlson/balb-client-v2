@@ -21,6 +21,7 @@ export default function Home() {
       })
       .catch((error: any) => {
         console.log(error);
+        setIsLoading(false);
       });
   };
   useEffect(() => {

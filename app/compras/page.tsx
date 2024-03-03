@@ -1,4 +1,5 @@
 "use client";
+import { getExpenses } from "@/api/api";
 import Purchases from "@/components/partials/Purchases";
 import Spinner from "@/components/ui/Spinner";
 import { purchases } from "@/constants/residents";
@@ -7,7 +8,22 @@ import React, { useEffect, useState } from "react";
 function page() {
   const [total, setTotal] = useState<number | null>(null);
   const [isCountng, setIsCountng] = useState(true);
+
   useEffect(() => {
+    const fetchExpenses = async () => {
+      getExpenses()
+        .then((resp) => {
+          console.log("resp get expenses");
+          console.log(resp);
+        })
+        .catch((error) => {
+          console.log("resp get expenses error");
+          console.log(error);
+        });
+
+      fetchExpenses();
+    };
+
     const sum = purchases.reduce((acc, curr) => {
       return acc + curr.value;
     }, 0);
@@ -17,7 +33,10 @@ function page() {
     if (total != null) {
       setIsCountng(false);
     }
-  }, [total]);
+
+    fetchExpenses();
+    // console.log("mounrted");
+  }, []);
 
   return (
     <div>
