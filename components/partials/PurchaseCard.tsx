@@ -7,7 +7,7 @@ type PuchaseProps = {
 };
 
 function PurchaseCard(purchase: PuchaseProps) {
-  const { author, desc, note, value } = purchase.purchases;
+  const { author, desc, link, value } = purchase.purchases;
   // return (
   //   <div className="bg-slate-100 shadow-md border-b border-slate-400 p-2 grid grid-cols-7 gap-x-2 rounded mb-2 ">
   //     <div className="flex col-span-2 justify-center items-center bg-slate-200 rounded">
@@ -37,7 +37,7 @@ function PurchaseCard(purchase: PuchaseProps) {
             Feito por: <span className="mt-1 font-bold">{author}</span>
           </p>
           <p>11/04/2024</p>
-          <LinkBtn link={note} label="Comprovante" />
+          <LinkBtn link={link} label="Comprovante" />
         </div>
       </fieldset>
     </div>

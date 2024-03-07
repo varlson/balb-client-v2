@@ -1,42 +1,30 @@
 "use client";
-import { getExpenses } from "@/api/api";
+import { getExpenses, getPurchaseList } from "@/api/api";
 import Purchases from "@/components/partials/Purchases";
 import Spinner from "@/components/ui/Spinner";
 import { purchases } from "@/constants/residents";
+import { useAppContext } from "@/context/Page";
+import { PurchaseType } from "@/types/types";
 import React, { useEffect, useState } from "react";
 
-function page() {
+function Page() {
   const [total, setTotal] = useState<number | null>(null);
   const [isCountng, setIsCountng] = useState(true);
+  const { purchases } = useAppContext();
 
   useEffect(() => {
-    const fetchExpenses = async () => {
-      getExpenses()
-        .then((resp) => {
-          console.log("resp get expenses");
-          console.log(resp);
-        })
-        .catch((error) => {
-          console.log("resp get expenses error");
-          console.log(error);
-        });
+    if (purchases.length) {
+      setTotal(
+        Math.floor(
+          purchases.reduce((acc, curr) => {
+            return acc + curr.value;
+          }, 0)
+        )
+      );
 
-      fetchExpenses();
-    };
-
-    const sum = purchases.reduce((acc, curr) => {
-      return acc + curr.value;
-    }, 0);
-
-    setTotal(sum);
-
-    if (total != null) {
       setIsCountng(false);
     }
-
-    fetchExpenses();
-    // console.log("mounrted");
-  }, []);
+  }, [total, purchases]);
 
   return (
     <div>
@@ -55,4 +43,4 @@ function page() {
   );
 }
 
-export default page;
+export default Page;

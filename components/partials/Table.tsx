@@ -1,18 +1,49 @@
 "use client";
-import { _residents } from "@/constants/residents";
+// import { _residents } from "@/api/constants/residents";
 import { ResidentType } from "@/types/types";
 import React, { useEffect, useState } from "react";
 import Status from "../ui/Status";
+import { useAppContext } from "@/context/Page";
+import { getMonthStatus } from "@/api/api";
+import { _residents } from "@/constants/residents";
+import Spinner from "../ui/Spinner";
 
-function Table(props) {
+function Table() {
   const [month, setMonth] = useState<null | number>(null);
+
+  const [isLoading, setIsLoading] = useState(true);
+  const [fetchError, setFetchError] = useState<string | null>(null);
+  const [monthStatus, setMonthStatus] = useState<ResidentType[]>([]);
+  const { fines, setFetchFines } = useAppContext();
+  const [currentMonth, setCurrentMonth] = useState<number>(-1);
   useEffect(() => {
-    setMonth(new Date().getMonth());
+    setCurrentMonth(new Date().getMonth());
+    const fetchMonthStatus = async () => {
+      getMonthStatus()
+        .then((resp: any) => {
+          const data: ResidentType[] = resp.data;
+          console.log("resp.data conevted");
+          console.log(data);
+          setMonthStatus(data);
+          setIsLoading(false);
+        })
+        .catch((error: any) => {
+          console.log("resp.data");
+          console.log(error.message);
+          setIsLoading(false);
+        });
+    };
+
+    fetchMonthStatus();
   }, []);
-  const [residents, setResidents] = useState<ResidentType[]>(_residents);
-  //   const [residents, setResidents] = useState([
-  //     1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-  //   ]);
+
+  if (isLoading)
+    return (
+      <div className="flex main items-center justify-center">
+        <Spinner hei="" wid="" col="" />
+      </div>
+    );
+
   return (
     <div className="grid grid-cols-12 p-2 border bg-slate-200">
       <div className="bg-slate-400 col-span-12  grid grid-cols-12 font-bold p-2">
@@ -35,22 +66,30 @@ function Table(props) {
         </div>
       </div>
 
-      {residents.map((resident, index) => (
+      {monthStatus.map((resident, index) => (
         <div key={index} className="my-2 col-span-12 grid grid-cols-12">
-          <p className="border border-black p-2 col-span-2 table-text">
-            {resident.name}
+          <p className="border border-black p-2 col-span-2 text-sm">
+            {resident.resident_name}
           </p>
           <div className="grid grid-cols-12 col-span-10">
-            {resident.status.map((item, _index) => (
+            {resident.months.map((item, _index) => (
               <div
                 key={_index}
                 className={` flex items-center justify-center ${
-                  month < _index ? "bg-slate-400" : ""
+                  currentMonth < _index ? "bg-slate-400" : ""
                 } p-1 text-center border border-black`}
               >
-                {/* {item == true ? "Sim" : month < _index ? "" : "Nao"} */}
+                {/* {item == true ? "Sim" : currentMonth < _index ? "" : "Nao"} */}
                 <Status
-                  status={item == true ? true : month < _index ? null : false}
+                  status={
+                    typeof item == "string"
+                      ? "n/s"
+                      : item == true
+                      ? true
+                      : currentMonth < _index
+                      ? null
+                      : false
+                  }
                 />
               </div>
             ))}

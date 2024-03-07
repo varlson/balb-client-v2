@@ -1,20 +1,21 @@
 export type ResidentType = {
-  name: string;
-  status: [boolean];
+  resident_name: string;
+  months: (string | boolean)[];
 };
 
 export type PurchaseType = {
   desc: string;
-  note: string;
+  link: string;
   author: string;
   value: number;
+  date: string;
 };
 
 export type FineType = {
   resident_name: string;
   status: boolean;
   date: string;
-  about: string;
+  desc: string;
 };
 
 export type DataType = {

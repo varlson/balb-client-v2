@@ -1,7 +1,7 @@
 import Table from "@/components/partials/Table";
 import React from "react";
 
-function page(props) {
+function page() {
   return (
     <div>
       <Table />
