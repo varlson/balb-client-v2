@@ -16,26 +16,6 @@ function Table() {
   const [monthStatus, setMonthStatus] = useState<ResidentType[]>([]);
   const { fines, setFetchFines } = useAppContext();
   const [currentMonth, setCurrentMonth] = useState<number>(-1);
-  useEffect(() => {
-    setCurrentMonth(new Date().getMonth());
-    const fetchMonthStatus = async () => {
-      getMonthStatus()
-        .then((resp: any) => {
-          const data: ResidentType[] = resp.data;
-          console.log("resp.data conevted");
-          console.log(data);
-          setMonthStatus(data);
-          setIsLoading(false);
-        })
-        .catch((error: any) => {
-          console.log("resp.data");
-          console.log(error.message);
-          setIsLoading(false);
-        });
-    };
-
-    fetchMonthStatus();
-  }, []);
 
   if (isLoading)
     return (

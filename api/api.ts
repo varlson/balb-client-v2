@@ -2,6 +2,7 @@ import { FineType, MonthStatusType } from "@/types/types";
 const finesURL = process.env.NEXT_PUBLIC_FINE_URL;
 const monthStatusURL = process.env.NEXT_PUBLIC_MONTH_STATUS;
 const purchaseList = process.env.NEXT_PUBLIC_PURCHASE;
+const all_data_URL = process.env.NEXT_PUBLIC_ALL_DATAS;
 import axios, { AxiosInstance } from "axios";
 
 // Criando uma instância personalizada do Axios com configurações padrão
@@ -64,6 +65,25 @@ export const getPurchaseList = async () => {
       const resp = await axios.get(purchaseList);
       resolve(resp.data);
     } catch (error: any) {
+      reject(error.message);
+    }
+  });
+};
+
+export const fetchAllDatas = async () => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      if (!all_data_URL) {
+        throw new Error("fines url invalido");
+      }
+      const resp = await axios.get(all_data_URL);
+      console.log("from all data req");
+      console.log(resp.data);
+      resolve(resp.data);
+    } catch (error: any) {
+      console.log("from all data req");
+      console.log(error.message);
+
       reject(error.message);
     }
   });

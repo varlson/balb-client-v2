@@ -31,3 +31,16 @@ export type ErrorType = {
 };
 
 export type MonthStatusType = DataType | ErrorType;
+
+export type AllDataType = {
+  data: {
+    fines: FineType[];
+    purchase: PurchaseType[];
+    month: MonthStatusType[];
+  };
+};
+
+export type AllDataResponseType = {
+  status: boolean;
+  content: AllDataType | string;
+};

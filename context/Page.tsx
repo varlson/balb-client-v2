@@ -1,26 +1,32 @@
 "use client";
-import { FineType, PurchaseType } from "@/types/types";
+import { fetchAllDatas } from "@/api/api";
+import {
+  AllDataResponseType,
+  AllDataType,
+  FineType,
+  PurchaseType,
+} from "@/types/types";
+import { finesSorter } from "@/util/sortFineList";
 import { createContext, useContext, useState } from "react";
 type AppWrapperType = {
   fines: FineType[];
-  setFetchFines: (fines: FineType[]) => void;
-  algo: string;
   purchases: PurchaseType[];
-  setFetchPurchases: (purchases: PurchaseType[]) => void;
+  dataLoader: () => Promise<unknown>;
+  error: string | null;
 };
 
 const AppContext = createContext<AppWrapperType>({
-  algo: "aaa",
   fines: [],
-  setFetchFines: (fines: FineType[]) => {},
-  setFetchPurchases: (purchases: PurchaseType[]) => {},
+  dataLoader: async () => {},
   purchases: [],
+  error: null,
 });
 
 export function AppWrapper({ children }: { children: React.ReactNode }) {
   const [data, setData] = useState({ algo: "Manito" });
   const [fines, setFines] = useState<FineType[]>([]);
   const [purchases, setPurchases] = useState<PurchaseType[]>([]);
+  const [error, setError] = useState<null | string>(null);
 
   const fetchFines = (_fines: FineType[]) => {
     setFines(_fines);
@@ -30,14 +36,29 @@ export function AppWrapper({ children }: { children: React.ReactNode }) {
     setPurchases(_purchses);
   };
 
+  const loader = async () => {
+    return new Promise((resolve, reject) => {
+      fetchAllDatas()
+        .then((resp: any) => {
+          // const respTyped: AllDataType = resp;
+          setFines(finesSorter(resp.data.fines));
+          setPurchases(resp.data.purchase);
+          resolve("ok");
+        })
+        .catch((error: any) => {
+          setError(error.message);
+          reject(error.message);
+        });
+    });
+  };
+
   return (
     <AppContext.Provider
       value={{
         fines: fines,
-        setFetchFines: fetchFines,
-        algo: "Alguma",
         purchases: purchases,
-        setFetchPurchases: fetchPurchase,
+        dataLoader: loader,
+        error: error,
       }}
     >
       {children}

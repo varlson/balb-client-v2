@@ -1,7 +1,6 @@
 "use client";
 import FineCard from "@/components/partials/FineCard";
 import React, { useEffect, useState } from "react";
-import { finesFakes } from "@/api/constants/residents";
 import { getFines } from "@/api/api";
 import { FineType } from "@/types/types";
 import Spinner from "@/components/ui/Spinner";
@@ -12,37 +11,18 @@ function Page() {
   const [isLoading, setIsLoading] = useState(true);
   const [fetchError, setFetchError] = useState<string | null>(null);
   // const [fineLst, setFineLst] = useState<FineType[]>([]);
-  const { fines, setFetchFines } = useAppContext();
+  const { fines, dataLoader } = useAppContext();
+
   useEffect(() => {
-    const fetchFines = async () => {
-      getFines()
-        .then((response: any) => {
-          const _fines: FineType[] = response.data;
-          // console.log("response");
-          // console.log(fines);
-          // setFineLst(_fines);
-          const sorted = finesSorter(_fines);
-          setFetchFines(sorted);
-          setIsLoading(false);
-        })
-        .catch((error: string) => {
-          console.log("error");
-          console.log(error);
-          setIsLoading(false);
-          setFetchError(error);
-        });
+    const loadDatas = async () => {
+      await dataLoader();
+      setIsLoading(false);
     };
 
     if (!fines.length) {
-      console.log("Multas precisoou");
-
-      fetchFines();
-    } else {
-      console.log("Multas Nao prec");
-
-      setIsLoading(false);
+      loadDatas();
     }
-  }, [setFetchFines, fines]);
+  });
 
   if (isLoading) {
     return (

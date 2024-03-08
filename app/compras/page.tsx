@@ -8,28 +8,51 @@ import { PurchaseType } from "@/types/types";
 import React, { useEffect, useState } from "react";
 
 function Page() {
-  const [total, setTotal] = useState<number | null>(null);
+  const [total, setTotal] = useState<number>(0);
+  const [isLoading, setIsLoading] = useState(true);
   const [isCountng, setIsCountng] = useState(true);
-  const { purchases } = useAppContext();
+  const { purchases, dataLoader } = useAppContext();
+
+  const count = () => {
+    let sum = 0;
+    for (let item of purchases) {
+      sum += item.value;
+    }
+
+    return sum;
+  };
 
   useEffect(() => {
-    if (purchases.length) {
-      setTotal(
-        Math.floor(
-          purchases.reduce((acc, curr) => {
-            return acc + curr.value;
-          }, 0)
-        )
-      );
+    const loadDatas = async () => {
+      await dataLoader();
+      setIsLoading(false);
+      setTotal(count());
+      setIsCountng(false);
+    };
 
+    if (!purchases.length) {
+      loadDatas();
+    } else {
+      const _total = purchases.reduce((pre, curr) => {
+        return pre + curr.value;
+      }, 0);
+      setTotal(count());
       setIsCountng(false);
     }
-  }, [total, purchases]);
+  }, [count, dataLoader, purchases]);
+
+  if (isLoading) {
+    return (
+      <div className="main flex items-center justify-center">
+        <Spinner hei="" wid="" col="" />
+      </div>
+    );
+  }
 
   return (
     <div>
       <div className=" mb-5 items-start justify-center flex flex-col">
-        {isCountng ? (
+        {total == 0 ? (
           <Spinner col="" hei="50" wid="50" />
         ) : (
           <div className="flex flex-col ml-3 items-center">
@@ -38,7 +61,7 @@ function Page() {
           </div>
         )}
       </div>
-      <Purchases onlyLast={false} />
+      <Purchases onlyLast={false} purchases={purchases} />
     </div>
   );
 }

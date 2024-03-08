@@ -10,37 +10,19 @@ import { useEffect, useState } from "react";
 export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<boolean>(false);
-  const { algo } = useAppContext();
-  const { fines, setFetchFines } = useAppContext();
+
+  const { fines, purchases, dataLoader } = useAppContext();
+
   useEffect(() => {
-    const fetchFines = async () => {
-      getFines()
-        .then((response: any) => {
-          const _fines: FineType[] = response.data;
-          // console.log("response");
-          // console.log(fines);
-          // setFineLst(_fines);
-          const sorted = finesSorter(_fines);
-          setFetchFines(sorted);
-          setIsLoading(false);
-        })
-        .catch((error: string) => {
-          console.log("error");
-          console.log(error);
-          setIsLoading(false);
-          // setFetchError(error);
-        });
+    const loadDatas = async () => {
+      await dataLoader();
+      setIsLoading(false);
     };
 
-    if (fines.length == 0) {
-      console.log("Home precisoou");
-      fetchFines();
-    } else {
-      console.log("Home nao prec");
-
-      setIsLoading(false);
+    if (!fines.length) {
+      loadDatas();
     }
-  }, [setFetchFines, fines]);
+  });
 
   if (isLoading)
     return (
@@ -57,7 +39,7 @@ export default function Home() {
         </div>
       </div>
       <div className="my-3">
-        <Purchases onlyLast={false} />
+        <Purchases purchases={purchases} onlyLast={true} />
       </div>
 
       <div className=" mt-4 items-start justify-center flex flex-col">
