@@ -1,4 +1,4 @@
-export type ResidentType = {
+export type MonthStatusType = {
   resident_name: string;
   months: (string | boolean)[];
 };
@@ -30,7 +30,7 @@ export type ErrorType = {
   error: string;
 };
 
-export type MonthStatusType = DataType | ErrorType;
+// export type MonthStatusType = DataType;
 
 export type AllDataType = {
   data: {
@@ -43,4 +43,11 @@ export type AllDataType = {
 export type AllDataResponseType = {
   status: boolean;
   content: AllDataType | string;
+};
+
+export type ResumeType = {
+  initialBalance: number;
+  totalUsed: number;
+  currentBalance: number;
+  currentMonth: string;
 };

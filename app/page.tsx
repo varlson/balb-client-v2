@@ -4,7 +4,7 @@ import FineCard from "@/components/partials/FineCard";
 import Purchases from "@/components/partials/Purchases";
 import Spinner from "@/components/ui/Spinner";
 import { useAppContext } from "@/context/Page";
-import { finesSorter } from "@/util/sortFineList";
+import { finesSorter } from "@/util/util";
 import { useEffect, useState } from "react";
 
 export default function Home() {
@@ -20,9 +20,13 @@ export default function Home() {
     };
 
     if (!fines.length) {
+      console.log("from hom page - fetch");
       loadDatas();
+    } else {
+      setIsLoading(false);
+      console.log("from hom page - not fetch");
     }
-  });
+  }, []);
 
   if (isLoading)
     return (

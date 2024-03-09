@@ -77,12 +77,12 @@ export const fetchAllDatas = async () => {
         throw new Error("fines url invalido");
       }
       const resp = await axios.get(all_data_URL);
-      console.log("from all data req");
-      console.log(resp.data);
+      // console.log("from all data req");
+      // console.log(resp.data);
       resolve(resp.data);
     } catch (error: any) {
-      console.log("from all data req");
-      console.log(error.message);
+      // console.log("from all data req");
+      // console.log(error.message);
 
       reject(error.message);
     }

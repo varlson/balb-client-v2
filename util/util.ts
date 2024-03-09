@@ -17,3 +17,14 @@ export const finesSorter = (fines: FineType[]) => {
 
   return listaOrdenada;
 };
+
+export const nameReducer = (name: string) => {
+  if (name.split(" ").length >= 2) {
+    const [_name, surname] = name.split(" ");
+    return _name.substring(0, 4) + ". " + surname.substring(0, 1) + ".";
+  } else if (name.length > 8) {
+    return name.substring(0, 7) + ".";
+  }
+
+  return name;
+};

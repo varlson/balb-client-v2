@@ -5,7 +5,7 @@ import { getFines } from "@/api/api";
 import { FineType } from "@/types/types";
 import Spinner from "@/components/ui/Spinner";
 import { useAppContext } from "@/context/Page";
-import { finesSorter } from "@/util/sortFineList";
+import { finesSorter } from "@/util/util";
 
 function Page() {
   const [isLoading, setIsLoading] = useState(true);
@@ -20,9 +20,13 @@ function Page() {
     };
 
     if (!fines.length) {
+      console.log("from multas - fetch");
       loadDatas();
+    } else {
+      setIsLoading(false);
+      console.log("from multas - not fetch");
     }
-  });
+  }, [fines, dataLoader]);
 
   if (isLoading) {
     return (

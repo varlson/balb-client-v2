@@ -2,44 +2,26 @@
 import { getExpenses, getPurchaseList } from "@/api/api";
 import Purchases from "@/components/partials/Purchases";
 import Spinner from "@/components/ui/Spinner";
-import { purchases } from "@/constants/residents";
 import { useAppContext } from "@/context/Page";
 import { PurchaseType } from "@/types/types";
 import React, { useEffect, useState } from "react";
 
 function Page() {
-  const [total, setTotal] = useState<number>(0);
   const [isLoading, setIsLoading] = useState(true);
-  const [isCountng, setIsCountng] = useState(true);
-  const { purchases, dataLoader } = useAppContext();
-
-  const count = () => {
-    let sum = 0;
-    for (let item of purchases) {
-      sum += item.value;
-    }
-
-    return sum;
-  };
+  const { purchases, dataLoader, resume } = useAppContext();
 
   useEffect(() => {
     const loadDatas = async () => {
       await dataLoader();
       setIsLoading(false);
-      setTotal(count());
-      setIsCountng(false);
     };
 
     if (!purchases.length) {
       loadDatas();
     } else {
-      const _total = purchases.reduce((pre, curr) => {
-        return pre + curr.value;
-      }, 0);
-      setTotal(count());
-      setIsCountng(false);
+      setIsLoading(false);
     }
-  }, [count, dataLoader, purchases]);
+  }, [dataLoader, purchases]);
 
   if (isLoading) {
     return (
@@ -51,15 +33,14 @@ function Page() {
 
   return (
     <div>
+      <div className="flex my-4">
+        <p className="text-2xl font-bold p-2">Compras de Mês:</p>
+      </div>
       <div className=" mb-5 items-start justify-center flex flex-col">
-        {total == 0 ? (
-          <Spinner col="" hei="50" wid="50" />
-        ) : (
-          <div className="flex flex-col ml-3 items-center">
-            <p>Total de compras:</p>
-            <p className="font-bold text-xl">{`${total} R$`}</p>
-          </div>
-        )}
+        <div className="flex flex-col ml-3 items-center">
+          <p className="font-semibold">Total de compras:</p>
+          <p className="font-bold text-xl">{`${resume.totalUsed} R$`}</p>
+        </div>
       </div>
       <Purchases onlyLast={false} purchases={purchases} />
     </div>

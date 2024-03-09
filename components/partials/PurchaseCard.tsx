@@ -7,12 +7,14 @@ type PuchaseProps = {
 };
 
 function PurchaseCard(purchase: PuchaseProps) {
-  const { author, desc, link, value } = purchase.purchases;
+  const { author, desc, link, value, date } = purchase.purchases;
 
   return (
     <div className="my-2 p-2">
       <fieldset className="border p-2 shadow-md">
-        <legend className="mx-3 px-4 text-xl font-bold">{`${value} R$`}</legend>
+        <legend className="mx-3 px-4 text-xl font-bold">
+          Compra: {`${value} R$`}
+        </legend>
 
         <div className="mb-4">
           <p>{desc}</p>
@@ -21,7 +23,7 @@ function PurchaseCard(purchase: PuchaseProps) {
           <p>
             Feito por: <span className="mt-1 font-bold">{author}</span>
           </p>
-          <p>11/04/2024</p>
+          <p>{date}</p>
           <LinkBtn link={link} label="Comprovante" />
         </div>
       </fieldset>

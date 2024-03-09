@@ -10,7 +10,7 @@ type SpinnerProps = {
 function Spinner({ hei, wid, col }: SpinnerProps) {
   const width = wid || "80";
   const height = hei || "80";
-  const color = col || "yellow";
+  const color = col || "#f2ac07";
   return (
     <div>
       <Puff
